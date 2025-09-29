@@ -68,9 +68,7 @@ object ReusabilityDemo {
           ),
           s"Force Parent Re-render (count: ${$.state.parentRenderCount})"
         ),
-        <.hr(),
         <.p(
-          ^.fontWeight := "bold",
           "Notice: Without Reusability renders every time, With Reusability keeps the same timestamp!"
         ),
 

@@ -1,13 +1,15 @@
 package www
 
 import org.scalajs.dom
-import com.raquo.laminar.api.L.*
+import japgolly.scalajs.react.*
+import japgolly.scalajs.react.vdom.html_<^.*
 
 object Main {
   @main
   def run(): Unit = {
-    MainReactApp()
+    val container = dom.document.getElementById("app")
+    ReactDOMClient
+      .createRoot(container)
+      .render(ReusabilityDemo.ParentComponent())
   }
-
-  def hello(): String = "Hello World"
 }
