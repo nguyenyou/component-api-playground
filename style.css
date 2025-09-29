@@ -1,0 +1,9 @@
+/* Syntax highlighting for Scala code */
+.syntax-keyword { color: #c792ea; }
+.syntax-type { color: #82aaff; }
+.syntax-string { color: #c3e88d; }
+.syntax-comment { color: #546e7a; font-style: italic; }
+.syntax-function { color: #89ddff; }
+.syntax-number { color: #f78c6c; }
+.syntax-operator { color: #89ddff; }
+.syntax-punctuation { color: #8796b0; }

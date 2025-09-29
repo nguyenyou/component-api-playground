@@ -69,65 +69,80 @@ object ReusabilityDemo {
   // Parent component state
   case class State(parentRenderCount: Int)
 
-  val sourceCode = """package www
+  def highlightedSourceCode: VdomElement = {
+    <.div(
+      <.span(^.cls := "syntax-keyword", "package"), " www\n\n",
+      <.span(^.cls := "syntax-keyword", "import"), " japgolly.scalajs.react._\n",
+      <.span(^.cls := "syntax-keyword", "import"), " japgolly.scalajs.react.vdom.html_<^._\n",
+      <.span(^.cls := "syntax-keyword", "import"), " org.scalajs.dom\n\n",
 
-import japgolly.scalajs.react._
-import japgolly.scalajs.react.vdom.html_<^._
-import org.scalajs.dom
+      <.span(^.cls := "syntax-keyword", "object"), " ", <.span(^.cls := "syntax-type", "ReusabilityDemo"), " {\n\n",
+      "  ", <.span(^.cls := "syntax-comment", "// Case class WITHOUT Reusability"), "\n",
+      "  ", <.span(^.cls := "syntax-keyword", "case class"), " ", <.span(^.cls := "syntax-type", "PropsWithoutReusability"),
+      "(name: ", <.span(^.cls := "syntax-type", "String"), ", count: ", <.span(^.cls := "syntax-type", "Int"), ")\n\n",
 
-object ReusabilityDemo {
+      "  ", <.span(^.cls := "syntax-comment", "// Case class WITH Reusability"), "\n",
+      "  ", <.span(^.cls := "syntax-keyword", "case class"), " ", <.span(^.cls := "syntax-type", "PropsWithReusability"),
+      "(name: ", <.span(^.cls := "syntax-type", "String"), ", count: ", <.span(^.cls := "syntax-type", "Int"), ")\n\n",
 
-  // Case class WITHOUT Reusability
-  case class PropsWithoutReusability(name: String, count: Int)
+      "  ", <.span(^.cls := "syntax-keyword", "object"), " ", <.span(^.cls := "syntax-type", "PropsWithReusability"), " {\n",
+      "    ", <.span(^.cls := "syntax-keyword", "implicit val"), " reusability: ", <.span(^.cls := "syntax-type", "Reusability"),
+      "[", <.span(^.cls := "syntax-type", "PropsWithReusability"), "] =\n",
+      "      ", <.span(^.cls := "syntax-type", "Reusability"), ".", <.span(^.cls := "syntax-function", "derive"), "\n",
+      "  }\n\n",
 
-  // Case class WITH Reusability
-  case class PropsWithReusability(name: String, count: Int)
+      "  ", <.span(^.cls := "syntax-comment", "// Component WITHOUT Reusability - will ALWAYS re-render"), "\n",
+      "  ", <.span(^.cls := "syntax-keyword", "val"), " ", <.span(^.cls := "syntax-type", "ComponentWithoutReusability"), " = ",
+      <.span(^.cls := "syntax-type", "ScalaComponent"), "\n",
+      "    .", <.span(^.cls := "syntax-function", "builder"), "[", <.span(^.cls := "syntax-type", "PropsWithoutReusability"),
+      "](", <.span(^.cls := "syntax-string", "\"WithoutReusability\""), ")\n",
+      "    .", <.span(^.cls := "syntax-function", "render_P"), " { props =>\n",
+      "      <.", <.span(^.cls := "syntax-function", "div"), "(", <.span(^.cls := "syntax-comment", "/* Renders with red border */"), ")\n",
+      "    }\n",
+      "    .", <.span(^.cls := "syntax-function", "build"), "\n\n",
 
-  object PropsWithReusability {
-    implicit val reusability: Reusability[PropsWithReusability] =
-      Reusability.derive
+      "  ", <.span(^.cls := "syntax-comment", "// Component WITH Reusability - will skip re-renders"), "\n",
+      "  ", <.span(^.cls := "syntax-keyword", "val"), " ", <.span(^.cls := "syntax-type", "ComponentWithReusability"), " = ",
+      <.span(^.cls := "syntax-type", "ScalaComponent"), "\n",
+      "    .", <.span(^.cls := "syntax-function", "builder"), "[", <.span(^.cls := "syntax-type", "PropsWithReusability"),
+      "](", <.span(^.cls := "syntax-string", "\"WithReusability\""), ")\n",
+      "    .", <.span(^.cls := "syntax-function", "render_P"), " { props =>\n",
+      "      <.", <.span(^.cls := "syntax-function", "div"), "(", <.span(^.cls := "syntax-comment", "/* Renders with green border */"), ")\n",
+      "    }\n",
+      "    .", <.span(^.cls := "syntax-function", "configure"), "(", <.span(^.cls := "syntax-type", "Reusability"),
+      ".", <.span(^.cls := "syntax-function", "shouldComponentUpdate"), ")\n",
+      "    .", <.span(^.cls := "syntax-function", "build"), "\n\n",
+
+      "  ", <.span(^.cls := "syntax-comment", "// Parent component state"), "\n",
+      "  ", <.span(^.cls := "syntax-keyword", "case class"), " ", <.span(^.cls := "syntax-type", "State"),
+      "(parentRenderCount: ", <.span(^.cls := "syntax-type", "Int"), ")\n\n",
+
+      "  ", <.span(^.cls := "syntax-comment", "// Parent component that re-renders but passes same props"), "\n",
+      "  ", <.span(^.cls := "syntax-keyword", "val"), " ", <.span(^.cls := "syntax-type", "ParentComponent"), " = ",
+      <.span(^.cls := "syntax-type", "ScalaComponent"), "\n",
+      "    .", <.span(^.cls := "syntax-function", "builder"), "[", <.span(^.cls := "syntax-type", "Unit"),
+      "](", <.span(^.cls := "syntax-string", "\"Parent\""), ")\n",
+      "    .", <.span(^.cls := "syntax-function", "initialState"), "(", <.span(^.cls := "syntax-type", "State"),
+      "(", <.span(^.cls := "syntax-number", "0"), "))\n",
+      "    .", <.span(^.cls := "syntax-function", "render"), " { $ =>\n",
+      "      <.", <.span(^.cls := "syntax-function", "div"), "(\n",
+      "        <.", <.span(^.cls := "syntax-function", "button"), "(\n",
+      "          ^.onClick --> $.modState(s =>\n",
+      "            s.copy(parentRenderCount = s.parentRenderCount + ", <.span(^.cls := "syntax-number", "1"), ")\n",
+      "          ),\n",
+      "          ", <.span(^.cls := "syntax-string", "\"Force Parent Re-render\""), "\n",
+      "        ),\n\n",
+      "        ", <.span(^.cls := "syntax-comment", "// Both get the SAME prop values every time"), "\n",
+      "        ", <.span(^.cls := "syntax-type", "ComponentWithoutReusability"), "(", <.span(^.cls := "syntax-type", "PropsWithoutReusability"),
+      "(", <.span(^.cls := "syntax-string", "\"Alice\""), ", ", <.span(^.cls := "syntax-number", "42"), ")),\n",
+      "        ", <.span(^.cls := "syntax-type", "ComponentWithReusability"), "(", <.span(^.cls := "syntax-type", "PropsWithReusability"),
+      "(", <.span(^.cls := "syntax-string", "\"Bob\""), ", ", <.span(^.cls := "syntax-number", "42"), "))\n",
+      "      )\n",
+      "    }\n",
+      "    .", <.span(^.cls := "syntax-function", "build"), "\n",
+      "}"
+    )
   }
-
-  // Component WITHOUT Reusability - will ALWAYS re-render
-  val ComponentWithoutReusability = ScalaComponent
-    .builder[PropsWithoutReusability]("WithoutReusability")
-    .render_P { props =>
-      <.div(/* Component renders here */)
-    }
-    .build
-
-  // Component WITH Reusability - will skip re-renders when props are equivalent
-  val ComponentWithReusability = ScalaComponent
-    .builder[PropsWithReusability]("WithReusability")
-    .render_P { props =>
-      <.div(/* Component renders here */)
-    }
-    .configure(Reusability.shouldComponentUpdate)
-    .build
-
-  // Parent component state
-  case class State(parentRenderCount: Int)
-
-  // Parent component that re-renders but passes the same props
-  val ParentComponent = ScalaComponent
-    .builder[Unit]("Parent")
-    .initialState(State(0))
-    .render { $ =>
-      <.div(
-        <.button(
-          ^.onClick --> $.modState(s =>
-            s.copy(parentRenderCount = s.parentRenderCount + 1)
-          ),
-          "Force Parent Re-render"
-        ),
-
-        // Both get the SAME prop values every time
-        ComponentWithoutReusability(PropsWithoutReusability("Alice", 42)),
-        ComponentWithReusability(PropsWithReusability("Bob", 42))
-      )
-    }
-    .build
-}"""
 
   // Parent component that re-renders but passes the same props
   val ParentComponent = ScalaComponent
@@ -153,8 +168,8 @@ object ReusabilityDemo {
             <.div(
               ^.cls := "bg-slate-900 rounded-lg shadow-lg overflow-hidden",
               <.pre(
-                ^.cls := "text-xs leading-relaxed text-slate-100 p-6 overflow-auto font-mono",
-                <.code(sourceCode)
+                ^.cls := "text-sm leading-relaxed text-slate-100 p-6 overflow-auto font-mono",
+                <.code(highlightedSourceCode)
               )
             )
           )
