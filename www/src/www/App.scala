@@ -9,7 +9,8 @@ case class App() {
     div(
       cls("h-screen w-screen flex justify-center items-center"),
       "Hello, Worldddd!",
-      Button(color = _.Red)()
+      Button(color = _.Red)(),
+      Tag(color = _.Green)()
     )
   }
 }
